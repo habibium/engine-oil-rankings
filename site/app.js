@@ -122,14 +122,20 @@
     if (state.type !== "all" && !g.types.some(function (t) { return t.id === state.type; })) state.type = "all";
     if (state.sort !== "rank" && state.sort !== "name" && !g.columns.some(function (c) { return c.key === state.sort; })) state.sort = "rank";
 
-    document.title = g.grade + " motorcycle oil rankings";
+    document.title = ranking.title + " · Engine oil rankings";
     $("title").textContent = ranking.title;
     $("lede").textContent = ranking.lede;
     $("caption").textContent = ranking.title;
 
-    segmented($("grade"), grades.map(function (x) { return { id: x.slug, label: x.grade }; }), state.grade, function (slug) {
-      state.grade = slug; state.sort = "rank"; state.dir = "asc"; start();
+    var categories = grades.map(function (x) { return x.category; }).filter(function (c, i, a) { return a.indexOf(c) === i; });
+    var pickGrade = function (slug) { state.grade = slug; state.sort = "rank"; state.dir = "asc"; start(); };
+    $("category-control").hidden = categories.length < 2;
+    segmented($("category"), categories.map(function (c) { return { id: c, label: c.charAt(0).toUpperCase() + c.slice(1) }; }), g.category, function (c) {
+      pickGrade(grades.filter(function (x) { return x.category === c; })[0].slug);
     });
+    segmented($("grade"), grades.filter(function (x) { return x.category === g.category; }).map(function (x) {
+      return { id: x.slug, label: x.grade };
+    }), state.grade, pickGrade);
     segmented($("ranking"), RANKINGS, state.rank, function (id) {
       state.rank = id; state.sort = "rank"; state.dir = "asc"; render();
     });
@@ -174,7 +180,7 @@
       body = [el("tr", { class: "empty" }, [el("td", { colspan: String(g.columns.length + 2), text: "No oil matches. Clear the search or pick another oil type." })])];
     }
     $("table").tBodies[0].replaceChildren.apply($("table").tBodies[0], body);
-    $("count").textContent = "Showing " + rows.length + " of " + g.oils.length + " " + g.grade + " oils · prices " + g.updated + ", " + g.region;
+    $("count").textContent = "Showing " + rows.length + " of " + g.oils.length + " " + g.label + " · prices " + g.updated + ", " + g.region;
 
     $("downloads").replaceChildren(
       el("span", { class: "muted", text: "This ranking as a file:" }),

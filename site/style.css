@@ -194,3 +194,4 @@ tbody th { font-weight: 400; }
 .controls > *, main > * { min-width: 0; }
 .seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .star-count[hidden] { display: none; }
+.control[hidden] { display: none; }
