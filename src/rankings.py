@@ -19,23 +19,20 @@ def num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
-def slug(grade):
-    return re.sub(r"[^a-z0-9]+", "-", grade.lower()).strip("-")
-
-
-def file_stem(grade):
-    return grade.lower().replace("-", "")
+def slug(text):
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
 def load_grades():
     grades = [load_grade(p) for p in sorted((ROOT / "data").glob("*.json"))]
-    return sorted(grades, key=lambda g: g["grade"])
+    return sorted(grades, key=lambda g: (g["category"], g["grade"]))
 
 
 def load_grade(path):
     g = json.loads(Path(path).read_text(encoding="utf-8"))
-    g["slug"] = slug(g["grade"])
-    g["stem"] = file_stem(g["grade"])
+    g["slug"] = slug(f'{g["category"]} {g["grade"]}')
+    g["stem"] = f'{slug(g["category"])}-{g["grade"].lower().replace("-", "")}'
+    g["label"] = f'{g["grade"]} {g["category"]} oils'
     for o in g["oils"]:
         city, hwy = INTERVALS[o["type"]]
         o["city_km"], o["hwy_km"] = city, hwy
@@ -94,7 +91,8 @@ def _first(oils, pred=lambda o: True):
 
 def rankings(g):
     """The three orderings of one grade: title, lede, picks and rows (each row a copy of the oil with "rank")."""
-    oils, grade, region, updated = g["oils"], g["grade"], g["region"], g["updated"]
+    oils, region, updated = g["oils"], g["region"], g["updated"]
+    label = g["label"]
     by_tk = lambda o: o["tk_city"]
 
     verified = [o for o in oils if o["jaso_reg"] and o["has_datasheet"]]
@@ -109,7 +107,7 @@ def rankings(g):
 
     out = {
         "protection": dict(
-            title=f"{grade} motorcycle oils ranked by engine protection: base oil, verified specs and lab data",
+            title=f"{label} ranked by engine protection: base oil, verified specs and lab data",
             lede=("Synthetics rank above semi-synthetics. Within each group, oils whose JASO MA2 registration is on JASO's own list come first; "
                   "then the API rating and the makers' published lab data (evaporation loss, flash point, HTHS, TBN) set the order. "
                   f"Oils with no published datasheet are listed last, unranked. Oils commonly sold in {region}, {updated} prices; running cost per km is on the right."),
@@ -120,7 +118,7 @@ def rankings(g):
             unranked={o["id"] for o in oils if o["protection_rank"] is None},
         ),
         "performance": dict(
-            title=f"{grade} motorcycle oils ranked for performance and sporty feel",
+            title=f"{label} ranked for performance and sporty feel",
             lede=("Feel can't be read off a datasheet, so this ranks the formulation features linked to quick revving, smooth shifting and a firm clutch: "
                   "ester content (2 points), full-synthetic base, JASO MA2 registration on JASO's list, viscosity index 150 or higher, viscosity at 40 °C of 70 cSt or less, "
                   "and HTHS 3.3 or higher (1 point each; sport score out of 7). Ties go to the full synthetic, then the higher viscosity index. "
@@ -132,7 +130,7 @@ def rankings(g):
             unranked={o["id"] for o in oils if not o["has_datasheet"]},
         ),
         "value": dict(
-            title=f"{grade} motorcycle oils ranked by value for money",
+            title=f"{label} ranked by value for money",
             lede=("Oils that publish a datasheet and whose JASO MA2 registration is on JASO's own list come first, ordered by city running cost (Taka/km); "
                   "the rest follow, also by Taka/km. Taka/km already allows for the longer change interval of synthetic oils. "
                   f"Oils commonly sold in {region}, {updated} prices."),

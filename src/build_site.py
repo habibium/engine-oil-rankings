@@ -1,5 +1,7 @@
 """Builds the GitHub Pages site into the given folder: site/ + one JSON per grade + PDFs, PNGs and datasheets."""
+import datetime
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -7,8 +9,12 @@ from pathlib import Path
 import rankings as R
 
 out = Path(sys.argv[1])
+# Absolute URL for canonical links and the sitemap; CI passes the Pages URL, which follows a custom domain.
+site_url = os.environ.get("SITE_URL", "https://habibium.github.io/engine-oil-rankings").rstrip("/") + "/"
 shutil.rmtree(out, ignore_errors=True)
 shutil.copytree(R.ROOT / "site", out)
+page = out / "index.html"
+page.write_text(page.read_text(encoding="utf-8").replace("{{SITE_URL}}", site_url), encoding="utf-8")
 shutil.copytree(R.ROOT / "output", out / "downloads")
 shutil.copytree(R.ROOT / "datasheets", out / "datasheets")
 shutil.copytree(R.ROOT / "docs" / "sources", out / "sources")
@@ -46,14 +52,20 @@ for g in R.load_grades():
             "png": f'downloads/{g["stem"]}-oils-ranked-by-{key}.png',
         }
     types = [t for t in R.TYPE_LABEL if any(o["type"] == t for o in g["oils"])]
-    doc = {k: g[k] for k in ("grade", "slug", "region", "updated", "scope", "notes", "sources")} | {
+    doc = {k: g[k] for k in ("category", "grade", "label", "slug", "region", "updated", "scope", "notes", "sources")} | {
         "types": [{"id": t, "label": R.TYPE_LABEL[t]} for t in types],
         "columns": columns,
         "rankings": ranks,
         "oils": oils,
     }
     (out / "data" / f'{g["slug"]}.json').write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
-    index.append({"grade": g["grade"], "slug": g["slug"], "count": len(oils), "updated": g["updated"]})
+    index.append({k: g[k] for k in ("category", "grade", "label", "slug", "updated")} | {"count": len(oils)})
     print(f'{g["grade"]}: {len(oils)} oils')
 
 (out / "data" / "grades.json").write_text(json.dumps(index, ensure_ascii=False), encoding="utf-8")
+
+today = datetime.date.today().isoformat()
+(out / "sitemap.xml").write_text(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    f"  <url><loc>{site_url}</loc><lastmod>{today}</lastmod></url>\n</urlset>\n", encoding="utf-8")
+(out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {site_url}sitemap.xml\n", encoding="utf-8")
