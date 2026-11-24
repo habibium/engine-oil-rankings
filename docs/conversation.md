@@ -913,3 +913,66 @@ The phone layout is fine now. Next I'm adding the deploy workflow, the licences 
 - *Read*: <repo>/README.md
 - *Write*: <repo>/README.md
 - *Bash*: Enable GitHub Pages and set repo homepage and topics
+- *Bash*: Refresh conversation export, scan for personal info, stage
+- *Bash*: Commit in logical steps and push
+
+I've pushed the changes. Now I'm watching the Pages deploy run.
+
+- *Bash*: Wait for Pages deploy and check live URLs
+- *Bash*: Screenshot the live site
+- *Read*: <scratch>/sitecheck/live.png
+- *Bash*: Stop the local test server
+
+The website is live at **https://habibium.github.io/motorcycle-oil-rankings/**. I loaded the live site and sorted the viscosity index column from highest to lowest; the values came out in the right order. The deploy succeeded, and the page, the data file and the PDF downloads all load.
+
+**I renamed the repo** to `motorcycle-oil-rankings`, since the old name had "10w30" in it and you want to add other grades. GitHub redirects the old URL, so earlier links still work. The repo's homepage now points to the site, and I added topics so it's easier to find.
+
+**What the website does:**
+- A **Star us on GitHub** button sits in the top-right corner. It shows the star count once the repo has at least one star.
+- You can switch between three rankings: Protection, Performance and Value for money. The title, intro and three picks change with the ranking.
+- Every column sorts when you click its heading, and a second click reverses it. Oils with no published value stay at the bottom either way.
+- You can filter by oil type (All, Synthetic, Semi-synthetic) and search by name.
+- The best and worst cells are coloured green and red, as in the images.
+- Each oil has links to its datasheets, and each ranking has PDF, PNG and JSON downloads.
+- The current view is saved in the URL, so a sorted or filtered table can be shared as a link.
+- It works in light and dark mode. On phones the table scrolls sideways while the rank and oil name stay in place. I checked the layout at 390 px wide.
+
+**Ready for more grades:**
+- There is now one data file per grade, starting with `data/10w-30.json`. Adding `data/10w-40.json` is enough for the site to show a 10W-40 option, and `./src/render.sh` makes its PDFs and PNGs. No code changes are needed.
+- The ranking logic is in one shared file (`src/rankings.py`), so the images and the website can't disagree.
+- I re-rendered the 10W-30 images after this change and they match the old ones pixel for pixel.
+- The README has an "Adding a grade" section.
+
+**Licences:**
+- The code is under MIT, the copyright line names your GitHub handle, and GitHub shows MIT on the repo page.
+- The data, rankings, images and write-ups are under CC BY 4.0: anyone can reuse them as long as they credit the project.
+- The makers' datasheets and JASO's list are left out of both licences and marked as their owners' copyright.
+
+**Deployment:** every push to `main` rebuilds and redeploys the site through a GitHub Actions workflow. Per your rule, I looked up and pinned the latest version of each action.
+
+`docs/conversation.md` has been re-exported to include this part of our conversation. It ends at the export itself, so the final checks and this message aren't in it.
+
+## User
+> rename the project to engine-oil-rankings (who knows we might need to compare car oils too)
+
+> rename the project to Engine Oil Rankings (who knows we might need to compare car oils too).
+> 
+> And I want to know what should I use as the domain? habibium.com/engine-oil-rankings (habibium.com already has my personal Astro site, ~/SSD/Code/habibium.com)?, or should I use a subdomain? I want it to be indexed in search engine too
+
+## Claude
+
+- *Bash*: Check how the habibium.com Astro site is hosted
+
+I'll rename the project first, then answer the domain question. To see what the domain options involve, I checked how habibium.com is hosted: it's an Astro site on Vercel. That affects the answer.
+
+- *Bash*: Rename repo and add a category to the grade data
+- *Bash*: Find names and slugs to update
+- *Bash*: Make slugs, file names and titles category-aware
+- *Bash*: Add category, site URL, sitemap and robots to the site build
+- *Bash*: Rename the site and add SEO meta tags
+- *Bash*: Add category switch, pass Pages URL to build, re-render outputs
+
+The images are re-rendered under their new names. Next I'm checking they're unchanged, then updating the README and deploying.
+
+- *Bash*: Compare renamed images with previous renders
+- *Bash*: Update README for the rename and category support

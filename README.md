@@ -1,26 +1,26 @@
-# Motorcycle oil rankings (Bangladesh)
+# Engine oil rankings (Bangladesh)
 
-This project compares motorcycle engine oils sold in Bangladesh, using the makers' datasheets and JASO's filed-oil list. Each grade is ranked three ways: engine protection, performance and sporty feel, and value for money.
+This project compares engine oils sold in Bangladesh, using the makers' datasheets and JASO's filed-oil list. Each grade is ranked three ways: engine protection, performance and sporty feel, and value for money.
 
-**Website: https://habibium.github.io/motorcycle-oil-rankings/** On the site you can switch grade and ranking, filter by oil type, search, and sort any column in ascending or descending order.
+**Website: https://habibium.github.io/engine-oil-rankings/** On the site you can switch vehicle, grade and ranking, filter by oil type, search, and sort any column in ascending or descending order.
 
-So far it covers **10W-30**: fourteen semi-synthetic and synthetic oils rated JASO MA or MA2, with prices from November 2026. Other grades, such as 10W-40 and 5W-30, can be added as more data files, without changing any code (see [Adding a grade](#adding-a-grade)).
+So far it covers **10W-30 motorcycle oils**: fourteen semi-synthetic and synthetic oils rated JASO MA or MA2, with prices from November 2026. Other motorcycle grades, such as 10W-40 and 5W-30, can be added as more data files without changing any code (see [Adding a grade](#adding-a-grade)). Car oils fit the same structure but need their own columns and ranking rules (see [Car oils](#car-oils)).
 
 If you find this useful, please ⭐ star the repo.
 
-## 10W-30 rankings as files
+## 10W-30 motorcycle rankings as files
 
 Each ranking is a single-page PDF, which stays sharp at any zoom, and a 2048 px PNG for social media.
 
 | Ranking | PDF | PNG |
 |---|---|---|
-| Engine protection (base oil, verified specs, lab data) | [PDF](output/10w30-oils-ranked-by-protection.pdf) | [PNG](output/10w30-oils-ranked-by-protection.png) |
-| Performance and sporty feel | [PDF](output/10w30-oils-ranked-by-performance.pdf) | [PNG](output/10w30-oils-ranked-by-performance.png) |
-| Value for money (Taka/km) | [PDF](output/10w30-oils-ranked-by-value.pdf) | [PNG](output/10w30-oils-ranked-by-value.png) |
+| Engine protection (base oil, verified specs, lab data) | [PDF](output/motorcycle-10w30-oils-ranked-by-protection.pdf) | [PNG](output/motorcycle-10w30-oils-ranked-by-protection.png) |
+| Performance and sporty feel | [PDF](output/motorcycle-10w30-oils-ranked-by-performance.pdf) | [PNG](output/motorcycle-10w30-oils-ranked-by-performance.png) |
+| Value for money (Taka/km) | [PDF](output/motorcycle-10w30-oils-ranked-by-value.pdf) | [PNG](output/motorcycle-10w30-oils-ranked-by-value.png) |
 
-![10W-30 oils ranked by engine protection](output/10w30-oils-ranked-by-protection.png)
+![10W-30 motorcycle oils ranked by engine protection](output/motorcycle-10w30-oils-ranked-by-protection.png)
 
-## What's compared (10W-30)
+## What's compared (10W-30 motorcycle oils)
 
 | Oil | Type | Price (৳/L) | JASO MA2 on JASO's list |
 |---|---|---|---|
@@ -86,13 +86,13 @@ The work was done in one Claude Code session; the full conversation is in [`docs
 1. **Collect the datasheets.** Each maker's technical data sheet was downloaded, plus the safety data sheet where one gives the base-oil composition. They came from Motul's PIM server, Liqui Moly's PIM API, Maxima's Shopify CDN, Ravenol, Shell LiveDocs, Sinopec, Champion, Pakelo and AMSOIL (data bulletin G3348). The text was extracted with `pdftotext`, and each value was checked against the PDF.
 2. **Verify JASO claims.** JASO's filed-oil list (`4T_EV_LIST.pdf` from jalos.or.jp) was searched for every oil. An "MA2" printed on a bottle counts as registered only if the oil's number appears on that list.
 3. **Collect prices.** Prices are MRPs or major Bangladeshi retailer prices from November 2026: Rokomari, BikeBD, Daraz, Oil House, Sinopec Bangladesh, the Bangladesh Honda price list and the Shell Bangladesh catalogue. The AMSOIL price is a quote from a seller.
-4. **Record the data.** Everything went into `data/10w-30.json`, one object per oil. `null` means the maker doesn't publish that figure.
+4. **Record the data.** Everything went into `data/motorcycle-10w-30.json`, one object per oil. `null` means the maker doesn't publish that figure.
 5. **Rank and render.** `src/rankings.py` works out the intervals, Taka/km, sport scores, the three orderings and the green and red cells. The PDF/PNG images and the website both use it, so they always agree.
 
 ## Project layout
 
 ```
-data/        one JSON file per grade (10w-30.json); the only file you edit to change data
+data/        one JSON file per vehicle and grade (motorcycle-10w-30.json); the only files you edit to change data
 src/
   rankings.py       shared logic: intervals, Taka/km, sport score, orderings, best/worst cells
   columns.json      table columns, units and which direction is better
@@ -111,7 +111,7 @@ docs/        conversation.md and the JASO filed-oil list
 **Images.** You need Python 3 (standard library only), Google Chrome or Chromium, and ImageMagick 7 (`magick`).
 
 ```sh
-./src/render.sh                   # writes output/<grade>-oils-ranked-by-<ranking>.{pdf,png}
+./src/render.sh                   # writes output/<vehicle>-<grade>-oils-ranked-by-<ranking>.{pdf,png}
 CHROME=chromium ./src/render.sh   # on Linux
 ```
 
@@ -124,17 +124,21 @@ python3 src/build_site.py build/site
 python3 -m http.server -d build/site 8000   # then open http://localhost:8000
 ```
 
-The site loads `data/grades.json` and then the JSON for the selected grade. All values, sort keys and cell colours are worked out in Python at build time, so `app.js` only displays, filters and sorts them. The current view is stored in the URL (for example `#grade=10w-30&rank=value&sort=price&dir=asc`), so a sorted or filtered table can be shared as a link.
+The site loads `data/grades.json` and then the JSON for the selected grade. All values, sort keys and cell colours are worked out in Python at build time, so `app.js` only displays, filters and sorts them. The current view is stored in the URL (for example `#grade=motorcycle-10w-30&rank=value&sort=price&dir=asc`), so a sorted or filtered table can be shared as a link.
 
 ## Adding a grade
 
-1. Copy `data/10w-30.json` to, say, `data/10w-40.json`.
-2. Set `grade` to `"10W-40"`, then update `updated`, `notes`, `sources` and the `oils` list.
+1. Copy `data/motorcycle-10w-30.json` to, say, `data/motorcycle-10w-40.json`.
+2. Set `grade` to `"10W-40"` (keep `category` as `"motorcycle"`), then update `updated`, `notes`, `sources` and the `oils` list.
 3. Fill in each oil's fields. Use `null` for any figure the maker doesn't publish; `"≥2.9"`-style strings are fine for minimum-only values. Set `type` to `synthetic`, `semi` or `mineral`, and `protection_rank` to an order following the protection rules (or `null` for oils without a datasheet).
 4. Put the datasheets in `datasheets/<brand>/` and list their paths in `datasheets`.
 5. Run `./src/render.sh` and commit. The website picks up the new grade automatically and shows it in the Grade switch.
 
-To correct a price or a value, edit the data file and open a pull request, or [open an issue](https://github.com/habibium/motorcycle-oil-rankings/issues) with a source.
+### Car oils
+
+A data file with `"category": "car"` is shown under a Vehicle switch, which appears once there is more than one category. The columns and ranking rules in `src/columns.json` and `src/rankings.py` are written for motorcycles, though: JASO MA/MA2 for wet clutches, and a sport score. Car oils would need their own, based on API SP/ILSAC and ACEA approvals and the car makers' approvals (VW, MB, BMW). The natural next step is to make the columns and rules depend on `category`.
+
+To correct a price or a value, edit the data file and open a pull request, or [open an issue](https://github.com/habibium/engine-oil-rankings/issues) with a source.
 
 ## Caveats
 
