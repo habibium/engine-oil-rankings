@@ -1,0 +1,20 @@
+[
+ {"key": "price", "label": "Price", "unit": "৳ per litre", "dir": "low", "kind": "price"},
+ {"key": "base", "label": "Base oil", "unit": "API group", "dir": null, "kind": "base"},
+ {"key": "ester", "label": "Ester", "unit": "", "dir": null, "kind": "ester"},
+ {"key": "api", "label": "API", "unit": "newer is better", "dir": null, "kind": "api"},
+ {"key": "jaso", "label": "JASO", "unit": "registered is better", "dir": null, "kind": "jaso"},
+ {"key": "kv40", "label": "Viscosity 40°C", "unit": "cSt · for reference", "dir": null, "kind": "num", "d": 1},
+ {"key": "kv100", "label": "Viscosity 100°C", "unit": "cSt · ↑ thicker hot film", "dir": "high", "kind": "num", "d": 1},
+ {"key": "vi", "label": "Viscosity index", "unit": "↑ higher is better", "dir": "high", "kind": "num", "d": 0},
+ {"key": "hths", "label": "HTHS 150°C", "unit": "mPa·s · ↑ higher is better", "dir": "high", "kind": "num", "d": 1},
+ {"key": "flash", "label": "Flash point", "unit": "°C · ↑ higher is better", "dir": "high", "kind": "num", "d": 0},
+ {"key": "pour", "label": "Pour point", "unit": "°C · ↓ lower is better", "dir": "low", "kind": "num", "d": 0},
+ {"key": "noack", "label": "Evaporation (Noack)", "unit": "% · ↓ lower is better", "dir": "low", "kind": "num", "d": 1},
+ {"key": "tbn", "label": "TBN acid neutraliser", "unit": "mg KOH/g · ↑ higher is better", "dir": "high", "kind": "num", "d": 1},
+ {"key": "sa", "label": "Sulfated ash", "unit": "% · detergent metals, for reference", "dir": null, "kind": "num", "d": 2},
+ {"key": "city_km", "label": "Change every: city", "unit": "km · suggested", "dir": null, "kind": "km"},
+ {"key": "hwy_km", "label": "Change every: highway", "unit": "km · suggested", "dir": null, "kind": "km"},
+ {"key": "tk_city", "label": "Taka/km: city", "unit": "↓ lower is better", "dir": "low", "kind": "num", "d": 2},
+ {"key": "tk_hwy", "label": "Taka/km: highway", "unit": "↓ lower is better", "dir": "low", "kind": "num", "d": 2}
+]

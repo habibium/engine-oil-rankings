@@ -1,8 +1,16 @@
 {
- "picks_html": "<div class=\"pick\"><b>Best protection:</b> Ravenol Motobike 4-T Ester</div><div class=\"pick\"><b>Best value, verified synthetic:</b> Liqui Moly Motorbike 4T Street</div><div class=\"pick\"><b>Cheapest per km:</b> Sinopec Xplore 4T</div>",
+ "grade": "10W-30",
+ "region": "Bangladesh",
+ "updated": "November 2026",
+ "scope": "Semi-synthetic and synthetic oils rated JASO MA or MA2",
+ "notes": {
+  "prices": "MRP or major Bangladeshi retailer price; shops often sell for less. AMSOIL is a seller's quote (৳1,750 for 946 ml) and its figures are from its 2018 datasheet. Pakelo and Motul 5100 figures are from current datasheets; stock here may be an older or regional version. JASO registration checked on JASO's own list of filed oils (1 Nov 2026).",
+  "excluded": "Mineral oils. Pertamina and ELF: no 10W-30 motorcycle oil on sale here (Pertamina's Enduro Matic-V is a JASO MB scooter oil). Motorex: no current price. Essenza: no datasheet. 5W-30s: no gain in Bangladesh's heat, and most are car oils that can make a wet clutch slip."
+ },
+ "sources": "makers' technical and safety data sheets, AMSOIL data bulletin G3348, JASO filed-oil list (1 November 2026), Bangladesh Honda price list, Shell Bangladesh product catalogue, retailer listings (Rokomari, BikeBD, Daraz, Oil House, Sinopec Bangladesh) and a seller quote (AMSOIL).",
  "oils": [
   {
-   "rank": 1,
+   "id": "ravenol-motobike-4-t-ester",
    "name": "Ravenol Motobike 4-T Ester",
    "sub": "Made in Germany",
    "price": 1700,
@@ -21,10 +29,14 @@
    "pour": -36,
    "noack": 3.3,
    "tbn": 7.9,
-   "sa": null
+   "sa": null,
+   "protection_rank": 1,
+   "datasheets": [
+    "datasheets/ravenol/ravenol-motobike-4t-ester-10w30-tds-en.pdf"
+   ]
   },
   {
-   "rank": 2,
+   "id": "motul-7100-4t",
    "name": "Motul 7100 4T",
    "sub": "Made in France",
    "price": 1650,
@@ -43,10 +55,14 @@
    "pour": -33,
    "noack": null,
    "tbn": null,
-   "sa": null
+   "sa": null,
+   "protection_rank": 2,
+   "datasheets": [
+    "datasheets/motul/motul-7100-10w30-tds-2024-en.pdf"
+   ]
   },
   {
-   "rank": 3,
+   "id": "liqui-moly-motorbike-4t-street",
    "name": "Liqui Moly Motorbike 4T Street",
    "sub": "Made in Germany",
    "price": 1450,
@@ -65,9 +81,15 @@
    "pour": -39,
    "noack": 12.9,
    "tbn": 7.0,
-   "sa": 0.8
+   "sa": 0.8,
+   "protection_rank": 3,
+   "datasheets": [
+    "datasheets/liqui-moly/lm-motorbike-4t-10w30-street-pi-en.pdf",
+    "datasheets/liqui-moly/lm-motorbike-4t-10w30-street-sds-23226-en.pdf"
+   ]
   },
   {
+   "id": "amsoil-synthetic-motorcycle-oil",
    "name": "AMSOIL Synthetic Motorcycle Oil",
    "sub": "Made in USA · 946 ml ৳1,750",
    "price": 1850,
@@ -87,9 +109,13 @@
    "noack": 5.8,
    "tbn": 11.6,
    "sa": null,
-   "rank": 4
+   "protection_rank": 4,
+   "datasheets": [
+    "datasheets/amsoil/amsoil-mct-10w30-synthetic-motorcycle-oil-g3348-2018.pdf"
+   ]
   },
   {
+   "id": "pakelo-krypton-mbk",
    "name": "Pakelo Krypton MBK",
    "sub": "Made in Italy",
    "price": 1650,
@@ -109,9 +135,14 @@
    "noack": 8.4,
    "tbn": 7.7,
    "sa": 0.8,
-   "rank": 5
+   "protection_rank": 5,
+   "datasheets": [
+    "datasheets/pakelo/pakelo-krypton-mbk-10w30-tds-2024.pdf",
+    "datasheets/pakelo/pakelo-krypton-mbk-10w30-sds.pdf"
+   ]
   },
   {
+   "id": "shell-advance-4t-fuel-save",
    "name": "Shell Advance 4T Fuel Save",
    "sub": "Made in Bangladesh · often out of stock",
    "price": 1080,
@@ -131,10 +162,13 @@
    "noack": null,
    "tbn": null,
    "sa": null,
-   "rank": 6
+   "protection_rank": 6,
+   "datasheets": [
+    "datasheets/shell/shell-advance-fuel-save-10w30-tds.pdf"
+   ]
   },
   {
-   "rank": 7,
+   "id": "maxima-pro-plus",
    "name": "Maxima Pro Plus+",
    "sub": "Made in USA",
    "price": 2200,
@@ -153,10 +187,14 @@
    "pour": -42,
    "noack": null,
    "tbn": null,
-   "sa": null
+   "sa": null,
+   "protection_rank": 7,
+   "datasheets": [
+    "datasheets/maxima/maxima-pro-plus-tds-api-sn-plus.pdf"
+   ]
   },
   {
-   "rank": 8,
+   "id": "champion-propulse-tt-4t-ester",
    "name": "Champion Propulse TT 4T Ester",
    "sub": "Made in Belgium",
    "price": 1450,
@@ -175,9 +213,14 @@
    "pour": -45,
    "noack": null,
    "tbn": 7.3,
-   "sa": null
+   "sa": null,
+   "protection_rank": 8,
+   "datasheets": [
+    "datasheets/champion/champion-propulse-tt-4t-10w30-ester-tds-2026.pdf"
+   ]
   },
   {
+   "id": "motul-5100-4t",
    "name": "Motul 5100 4T",
    "sub": "Made in India or France",
    "price": 1150,
@@ -197,9 +240,13 @@
    "noack": null,
    "tbn": null,
    "sa": null,
-   "rank": 9
+   "protection_rank": 9,
+   "datasheets": [
+    "datasheets/motul/motul-5100-10w30-tds-2026-global.pdf"
+   ]
   },
   {
+   "id": "sinopec-xplore-4t",
    "name": "Sinopec Xplore 4T",
    "sub": "Origin not stated",
    "price": 840,
@@ -219,10 +266,13 @@
    "noack": null,
    "tbn": 7.6,
    "sa": null,
-   "rank": 10
+   "protection_rank": 10,
+   "datasheets": [
+    "datasheets/sinopec/sinopec-xplore-10w30-sn-ma2-pds-2022.pdf"
+   ]
   },
   {
-   "rank": 11,
+   "id": "champion-moto-hp-4t",
    "name": "Champion Moto HP 4T",
    "sub": "Made in Belgium",
    "price": 950,
@@ -241,9 +291,14 @@
    "pour": -33,
    "noack": null,
    "tbn": 6.1,
-   "sa": null
+   "sa": null,
+   "protection_rank": 11,
+   "datasheets": [
+    "datasheets/champion/champion-moto-hp-4t-10w30-tds-2026.pdf"
+   ]
   },
   {
+   "id": "pakelo-multisint-mbk",
    "name": "Pakelo Multisint MBK",
    "sub": "Made in Italy",
    "price": 1200,
@@ -263,9 +318,14 @@
    "noack": 8.8,
    "tbn": 7.7,
    "sa": 0.8,
-   "rank": 12
+   "protection_rank": 12,
+   "datasheets": [
+    "datasheets/pakelo/pakelo-multisint-mbk-10w30-tds-2024.pdf",
+    "datasheets/pakelo/pakelo-multisint-mbk-10w30-sds.pdf"
+   ]
   },
   {
+   "id": "kixx-ultra-4t-sn",
    "name": "Kixx Ultra 4T SN",
    "sub": "Made in Korea · no datasheet",
    "price": 1350,
@@ -285,10 +345,11 @@
    "noack": null,
    "tbn": null,
    "sa": null,
-   "rank": null
+   "protection_rank": null,
+   "datasheets": []
   },
   {
-   "rank": null,
+   "id": "pro-honda-full-synthetic",
    "name": "Pro Honda Full Synthetic",
    "sub": "Bangladesh Honda · no datasheet",
    "price": 1420,
@@ -307,7 +368,9 @@
    "pour": null,
    "noack": null,
    "tbn": null,
-   "sa": null
+   "sa": null,
+   "protection_rank": null,
+   "datasheets": []
   }
  ]
 }

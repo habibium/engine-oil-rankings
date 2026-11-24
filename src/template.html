@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>10W-30 motorcycle oil rankings</title>
+<title>{{GRADE}} motorcycle oil rankings</title>
 <style>
   .viz-root {
     color-scheme: light;
@@ -84,10 +84,10 @@
   <div class="picks">{{PICKS}}</div>
   <div class="req">
     <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="9" fill="#0ca30c"/><path d="M5 9.4l2.6 2.5L13 6.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span><b>Before you buy:</b> check your bike's owner's manual. Every oil here is SAE 10W-30 and rated JASO MA or MA2 for wet clutches; none is a "Resource Conserving" car oil.</span>
+    <span><b>Before you buy:</b> check your bike's owner's manual. Every oil here is SAE {{GRADE}} and rated JASO MA or MA2 for wet clutches; none is a "Resource Conserving" car oil.</span>
   </div>
   <table>
-    <thead><tr><th class="c-rank">#</th><th class="c-name">Engine oil (10W-30, 1 L)</th>{{HEAD}}</tr></thead>
+    <thead><tr><th class="c-rank">#</th><th class="c-name">Engine oil ({{GRADE}}, 1 L)</th>{{HEAD}}</tr></thead>
     <tbody>
 {{BODY}}
     </tbody>
@@ -97,11 +97,11 @@
     <p><b>Which interval is yours.</b> City: Dhaka traffic, Pathao or Uber riding, and dusty village roads. Highway: long steady rides and touring. Change at the km shown or every 4 months, whichever comes first, and never past your bike maker's interval.</p>
     <p><b>How the intervals are set.</b> Semi-synthetic 2,500 km city and 3,500 km highway; synthetic 3,000 and 4,000 km. These are suggestions for Bangladesh's heat. Taka/km is the oil price divided by the interval.</p>
     <p><b>Base oil and additives.</b> Group III is hydrocracked "synthetic technology" oil; Shell's "PurePlus" is a gas-to-liquids (GTL) Group III base. * Group read from the maker's datasheet wording; † read from the maker's safety data sheet. TBN is the acid-neutralising reserve from detergent additives. Sulfated ash is the metal content of detergent and anti-wear additives; JASO MA2 allows up to 1.2%.</p>
-    <p><b>Prices and data.</b> MRP or major Bangladeshi retailer price; shops often sell for less. AMSOIL is a seller's quote (৳1,750 for 946 ml) and its figures are from its 2018 datasheet. Pakelo and Motul 5100 figures are from current datasheets; stock here may be an older or regional version. JASO registration checked on JASO's own list of filed oils (1 Nov 2026).</p>
-    <p><b>Not included.</b> Mineral oils. Pertamina and ELF: no 10W-30 motorcycle oil on sale here (Pertamina's Enduro Matic-V is a JASO MB scooter oil). Motorex: no current price. Essenza: no datasheet. 5W-30s: no gain in Bangladesh's heat, and most are car oils that can make a wet clutch slip.</p>
+    <p><b>Prices and data.</b> {{PRICE_NOTE}}</p>
+    <p><b>Not included.</b> {{EXCLUDED}}</p>
   </div>
   <div class="warn">Fake and refilled oil is common in Bangladesh. Buy from the official importer or a trusted shop, and check the seal before paying.</div>
-  <div class="foot">Sources: makers' technical and safety data sheets, AMSOIL data bulletin G3348, JASO filed-oil list (1 November 2026), Bangladesh Honda price list, Shell Bangladesh product catalogue, retailer listings (Rokomari, BikeBD, Daraz, Oil House, Sinopec Bangladesh) and a seller quote (AMSOIL).</div>
+  <div class="foot">Sources: {{SOURCES}}</div>
 </div>
 <script>
   (function () {
