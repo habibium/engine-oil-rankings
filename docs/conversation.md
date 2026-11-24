@@ -819,3 +819,97 @@ The render script reproduces the outputs pixel-for-pixel. Next I'm exporting the
 - *Bash*: Export the conversation to Markdown with redaction
 - *Bash*: Check the end of the export and list user messages
 - *Write*: <repo>/README.md
+- *Bash*: Add gitignore, refresh export, scan for personal info
+- *Bash*: Initialise git repo and stage files
+- *Bash*: Commit and create the public GitHub repo
+
+I've published the public repo at **https://github.com/habibium/10w30-motorcycle-oil-rankings**. The folder is now the repo, with one commit on `main` and no Co-Authored-By trailer.
+
+**Deleted files.** I moved these to the Trash rather than deleting them, so you can still get them back from the drive's Trash:
+- the three Hornet-specific PNGs and the Hornet PDF (`10W-30-engine-oil-comparison.pdf`)
+- the ten oil-bottle photos you started with
+- `maxima/Tds_1172111_en.pdf`, which was actually a duplicate of Ravenol's datasheet
+- datasheets for oils that aren't in the rankings: Shell AX5 (mineral), Motorex, the third-party copy of the AMSOIL sheet, and Maxima's older API SL sheet
+- the `.DS_Store` files
+
+**What's in the repo:**
+- `output/`: the three rankings as PDF and PNG.
+- `src/`: `data.json`, `gen.py`, `build.py` and `template.html`. The template's page title now says "10W-30 motorcycle oil rankings" instead of the Hornet title.
+- `src/render.sh` (new): rebuilds all six files with one command. I ran it and its PNGs matched the previous ones pixel for pixel.
+- `datasheets/<brand>/`: the 15 maker datasheets the numbers come from.
+- `docs/sources/`: JASO's filed-oil list (1 Nov 2026), used to check each oil's JASO registration.
+- `README.md`: what's compared, how each of the three rankings is scored, how the data was collected and checked, how to regenerate the files, and caveats.
+
+**Conversation export.** It's in `docs/conversation.md`.
+- Your messages and my replies are copied exactly.
+- Tool calls appear as one-line entries; their output is left out.
+- Local paths, your name and email addresses are replaced with placeholders. I searched the whole repo afterwards and found no personal details.
+- The export was made during this last request, so it ends partway through this turn.
+
+Two things to be aware of now that the repo is public:
+- The datasheet PDFs are the makers' own documents. The README says they're kept as evidence and that the makers own the copyright. If you'd rather not redistribute them, I can remove them and keep only the links.
+- The commit's author email is whatever your global git config uses, which is a Gmail address.
+
+## User
+> Also create a webpage for it and host it in GH Pages, so that users can view the table interactively, sort each column with ascending and descending order.
+> This project if it gets popular I might also need to compare other grade oils too e.g. 10W-40 which is most common, 5W-30 and so on so keep it generic, currently it has just available 10W-30 synthetic and semi-synthetic oils
+
+> Also create a webpage for it and host it in GH Pages it should have Star us on GitHub, so that users can view the table interactively, sort each column with ascending and descending order.
+> This project if it gets popular I might also need to compare other grade oils too e.g. 10W-40 which is most common, 5W-30 and so on so keep it generic, currently it has just available 10W-30 synthetic and semi-synthetic oils.
+> 
+> Use an appropriate license for the repo
+
+## Claude
+The repo is up. Next I'm building the Pages site. First I'm checking the current GitHub Actions versions, as your instructions require.
+
+- *Bash*: Look up latest releases of the Pages actions
+- *Bash*: Read the READMEs of the Pages actions
+- *Bash*: Read configure-pages inputs and the Pages starter workflow
+
+Now I'm restructuring the data so new grades can be added as separate files. The ranking logic will be shared by the images and the website, so each formula is defined only once.
+
+- *Bash*: Convert data.json into a per-grade data file
+- *Write*: <repo>/src/columns.json
+- *Write*: <repo>/src/rankings.py
+- *Write*: <repo>/src/build_images.py
+- *Bash*: Turn grade-specific template text into placeholders
+- *Bash*: Retry template placeholder conversion
+
+I've refactored the image generator. Now I'm checking that it still produces exactly the same images.
+
+- *Write*: <repo>/src/render.sh
+- *Bash*: Render with refactored code and compare pixels
+- *Bash*: Render with refactored code and compare pixels
+
+The refactored images match the old ones pixel for pixel. Next I'm writing the website build script and the page itself.
+
+- *Write*: <repo>/src/build_site.py
+- *Bash*: Rename the repo to a grade-neutral name
+
+Next is the website: HTML, CSS and JS.
+
+- *Write*: <repo>/site/index.html
+- *Write*: <repo>/site/style.css
+- *Bash*: Keep the Star label on mobile and inline pick labels
+- *Write*: <repo>/site/app.js
+- *Bash*: Build the site locally
+- *Bash*: Serve the built site locally for testing
+
+I'm checking the site locally with screenshots at desktop and phone widths.
+
+- *Bash*: Screenshot site and check sorting via DOM
+- *Read*: <scratch>/sitecheck/desk.png
+- *Bash*: Downscale the mobile screenshot
+- *Read*: <scratch>/sitecheck/mobile.png
+- *Bash*: Fix mobile overflow, rebuild, re-screenshot
+- *Read*: <scratch>/sitecheck/mobile2.png
+- *Read*: <scratch>/sitecheck/light.png
+- *Bash*: Rebuild and render the site in a 390px iframe
+- *Read*: <scratch>/sitecheck/m3c.png
+
+The phone layout is fine now. Next I'm adding the deploy workflow, the licences and the updated README.
+
+- *Bash*: Add Pages workflow and MIT and CC BY 4.0 licence files
+- *Read*: <repo>/README.md
+- *Write*: <repo>/README.md
+- *Bash*: Enable GitHub Pages and set repo homepage and topics

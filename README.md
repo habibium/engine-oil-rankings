@@ -1,6 +1,16 @@
-# 10W-30 motorcycle oil rankings (Bangladesh, November 2026)
+# Motorcycle oil rankings (Bangladesh)
 
-This repo compares fourteen 10W-30 motorcycle oils that are commonly sold in Bangladesh. All are semi-synthetic or synthetic and rated JASO MA or MA2. The same data is ranked three ways, and each ranking is a single-page PDF plus a 2048 px PNG for social media:
+This project compares motorcycle engine oils sold in Bangladesh, using the makers' datasheets and JASO's filed-oil list. Each grade is ranked three ways: engine protection, performance and sporty feel, and value for money.
+
+**Website: https://habibium.github.io/motorcycle-oil-rankings/** On the site you can switch grade and ranking, filter by oil type, search, and sort any column in ascending or descending order.
+
+So far it covers **10W-30**: fourteen semi-synthetic and synthetic oils rated JASO MA or MA2, with prices from November 2026. Other grades, such as 10W-40 and 5W-30, can be added as more data files, without changing any code (see [Adding a grade](#adding-a-grade)).
+
+If you find this useful, please ⭐ star the repo.
+
+## 10W-30 rankings as files
+
+Each ranking is a single-page PDF, which stays sharp at any zoom, and a 2048 px PNG for social media.
 
 | Ranking | PDF | PNG |
 |---|---|---|
@@ -8,11 +18,9 @@ This repo compares fourteen 10W-30 motorcycle oils that are commonly sold in Ban
 | Performance and sporty feel | [PDF](output/10w30-oils-ranked-by-performance.pdf) | [PNG](output/10w30-oils-ranked-by-performance.png) |
 | Value for money (Taka/km) | [PDF](output/10w30-oils-ranked-by-value.pdf) | [PNG](output/10w30-oils-ranked-by-value.png) |
 
-Use the PDF for reading. It is vector, so the small print stays sharp at any zoom.
+![10W-30 oils ranked by engine protection](output/10w30-oils-ranked-by-protection.png)
 
-![Ranked by engine protection](output/10w30-oils-ranked-by-protection.png)
-
-## What's compared
+## What's compared (10W-30)
 
 | Oil | Type | Price (৳/L) | JASO MA2 on JASO's list |
 |---|---|---|---|
@@ -31,7 +39,7 @@ Use the PDF for reading. It is vector, so the small print stays sharp at any zoo
 | Kixx Ultra 4T SN | synthetic | 1,350 | yes (no datasheet) |
 | Pro Honda Full Synthetic | synthetic | 1,420 | no number found (no datasheet) |
 
-Every number in the tables comes from the maker's technical or safety data sheet in [`datasheets/`](datasheets). JASO registrations were checked against JASO's filed-oil list of 1 November 2026, which is in [`docs/sources/`](docs/sources).
+Every number comes from the maker's technical or safety data sheet in [`datasheets/`](datasheets). JASO registrations were checked against JASO's filed-oil list of 1 November 2026, which is in [`docs/sources/`](docs/sources).
 
 Left out, with the reason printed on each image:
 
@@ -43,7 +51,7 @@ Left out, with the reason printed on each image:
 
 ## How each ranking works
 
-**Engine protection.** Synthetics rank above semi-synthetics. Within each group, oils whose JASO MA2 registration appears on JASO's list come first. After that, the API rating and the published lab data decide the order: Noack evaporation loss, flash point, HTHS viscosity and TBN. This order was set by hand from those rules and is stored as the `rank` field in `src/data.json`. Oils with no datasheet are listed but not ranked.
+**Engine protection.** Synthetics rank above semi-synthetics. Within each group, oils whose JASO MA2 registration appears on JASO's list come first. After that, the API rating and the published lab data decide the order: Noack evaporation loss, flash point, HTHS viscosity and TBN. This order is set by hand from those rules and stored as `protection_rank` in the grade's data file. Oils with no datasheet are listed but not ranked.
 
 **Performance and sporty feel.** A datasheet can't measure feel, so each oil gets a sport score out of 7 for formulation features linked to quick revving, smooth shifting and a firm clutch:
 
@@ -56,11 +64,11 @@ Left out, with the reason printed on each image:
 | Viscosity at 40 °C of 70 cSt or less | 1 |
 | HTHS 3.3 mPa·s or more | 1 |
 
-Ties go to the full synthetic, then to the higher viscosity index. The scoring is in `sport_score()` in `src/gen.py`, and each oil's score is printed under its name on the image.
+Ties go to the full synthetic, then to the higher viscosity index. The scoring is `sport_score()` in [`src/rankings.py`](src/rankings.py).
 
 **Value for money.** Oils that publish a datasheet *and* appear on JASO's list come first, ordered by city Taka/km. All other oils follow, also ordered by Taka/km.
 
-**Change intervals and Taka/km.** The suggested change intervals for Bangladesh's heat are:
+**Change intervals and Taka/km.** The suggested intervals for Bangladesh's heat are:
 
 | Oil type | City | Highway |
 |---|---|---|
@@ -78,37 +86,55 @@ The work was done in one Claude Code session; the full conversation is in [`docs
 1. **Collect the datasheets.** Each maker's technical data sheet was downloaded, plus the safety data sheet where one gives the base-oil composition. They came from Motul's PIM server, Liqui Moly's PIM API, Maxima's Shopify CDN, Ravenol, Shell LiveDocs, Sinopec, Champion, Pakelo and AMSOIL (data bulletin G3348). The text was extracted with `pdftotext`, and each value was checked against the PDF.
 2. **Verify JASO claims.** JASO's filed-oil list (`4T_EV_LIST.pdf` from jalos.or.jp) was searched for every oil. An "MA2" printed on a bottle counts as registered only if the oil's number appears on that list.
 3. **Collect prices.** Prices are MRPs or major Bangladeshi retailer prices from November 2026: Rokomari, BikeBD, Daraz, Oil House, Sinopec Bangladesh, the Bangladesh Honda price list and the Shell Bangladesh catalogue. The AMSOIL price is a quote from a seller.
-4. **Record the data.** All of it went into `src/data.json`, one object per oil. `null` means the maker doesn't publish that figure.
-5. **Render.** Each ranking is turned into HTML and printed to PDF and PNG with headless Chrome (details in the next section).
+4. **Record the data.** Everything went into `data/10w-30.json`, one object per oil. `null` means the maker doesn't publish that figure.
+5. **Rank and render.** `src/rankings.py` works out the intervals, Taka/km, sport scores, the three orderings and the green and red cells. The PDF/PNG images and the website both use it, so they always agree.
 
-## Regenerating the images
-
-Requirements: Python 3 (standard library only), Google Chrome or Chromium, and ImageMagick 7 (`magick`).
-
-```sh
-./src/render.sh
-# on Linux, point it at Chromium:
-CHROME=chromium ./src/render.sh
-```
-
-The script runs three steps:
-
-1. `src/gen.py` creates three variants (protection, performance and value) from `src/data.json`. Each variant has its own ordering, title, intro and three "picks".
-2. `src/build.py` turns each variant into an HTML table using `src/template.html`. It also works out each oil's change intervals and Taka/km, and which cells to colour green or red.
-3. Headless Chrome prints each HTML page to a single-page PDF; the template sets the `@page` size to fit the content. Chrome also takes a 2× screenshot, which ImageMagick trims, pads and resizes to 2048 px wide.
-
-Intermediate files go in `build/`, which git ignores.
-
-To update a price or add an oil, edit `src/data.json` and run the script again. In the value and performance rankings, the order and picks update automatically. The protection order follows each oil's `rank` field, so set that by hand.
-
-## Layout
+## Project layout
 
 ```
-output/      the three rankings as PDF and PNG
-src/         data.json, gen.py, build.py, template.html, render.sh
+data/        one JSON file per grade (10w-30.json); the only file you edit to change data
+src/
+  rankings.py       shared logic: intervals, Taka/km, sport score, orderings, best/worst cells
+  columns.json      table columns, units and which direction is better
+  build_images.py   writes one HTML page per grade and ranking from template.html
+  render.sh         prints those pages to output/*.pdf and output/*.png
+  build_site.py     builds the website into a folder (site/ + data + downloads)
+site/        the website: index.html, style.css, app.js (no framework, no build step)
+output/      generated PDFs and PNGs, committed so they can be linked and shared
 datasheets/  makers' technical and safety data sheets, by brand
 docs/        conversation.md and the JASO filed-oil list
+.github/workflows/pages.yml   builds and deploys the website on every push to main
 ```
+
+## Regenerating
+
+**Images.** You need Python 3 (standard library only), Google Chrome or Chromium, and ImageMagick 7 (`magick`).
+
+```sh
+./src/render.sh                   # writes output/<grade>-oils-ranked-by-<ranking>.{pdf,png}
+CHROME=chromium ./src/render.sh   # on Linux
+```
+
+Headless Chrome prints each page to a single-page PDF; the template sets the `@page` size to fit the content. Chrome also takes a 2× screenshot, which ImageMagick trims, pads and resizes to 2048 px wide.
+
+**Website.** Pushing to `main` deploys it automatically. To preview locally:
+
+```sh
+python3 src/build_site.py build/site
+python3 -m http.server -d build/site 8000   # then open http://localhost:8000
+```
+
+The site loads `data/grades.json` and then the JSON for the selected grade. All values, sort keys and cell colours are worked out in Python at build time, so `app.js` only displays, filters and sorts them. The current view is stored in the URL (for example `#grade=10w-30&rank=value&sort=price&dir=asc`), so a sorted or filtered table can be shared as a link.
+
+## Adding a grade
+
+1. Copy `data/10w-30.json` to, say, `data/10w-40.json`.
+2. Set `grade` to `"10W-40"`, then update `updated`, `notes`, `sources` and the `oils` list.
+3. Fill in each oil's fields. Use `null` for any figure the maker doesn't publish; `"≥2.9"`-style strings are fine for minimum-only values. Set `type` to `synthetic`, `semi` or `mineral`, and `protection_rank` to an order following the protection rules (or `null` for oils without a datasheet).
+4. Put the datasheets in `datasheets/<brand>/` and list their paths in `datasheets`.
+5. Run `./src/render.sh` and commit. The website picks up the new grade automatically and shows it in the Grade switch.
+
+To correct a price or a value, edit the data file and open a pull request, or [open an issue](https://github.com/habibium/motorcycle-oil-rankings/issues) with a source.
 
 ## Caveats
 
@@ -117,4 +143,8 @@ docs/        conversation.md and the JASO filed-oil list
 - The sport score is a proxy. It ranks formulation features, not measured riding feel.
 - Always check your bike's owner's manual for the required grade and specification.
 
-The datasheets are the makers' own published documents. They are kept here as evidence for the figures, and their copyright stays with the makers.
+## Licence
+
+- **Code** (`src/`, `site/`, `.github/`) is under the [MIT License](LICENSE).
+- **Data, rankings and images** (`data/`, `output/`, and the write-ups in this README and `docs/conversation.md`) are under [Creative Commons Attribution 4.0](LICENSE-DATA). You can share and adapt them, including commercially, as long as you credit this project and link back to it.
+- **Third-party documents** are not covered by either licence. The makers' datasheets in `datasheets/` and JASO's list in `docs/sources/` are their owners' copyright and are included only as evidence for the figures.
