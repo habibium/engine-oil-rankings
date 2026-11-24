@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motorcycle oil rankings</title>
+<meta name="description" content="Motorcycle engine oils sold in Bangladesh compared on makers' datasheets and JASO's filed-oil list, and ranked by engine protection, sporty feel and value for money.">
+<meta property="og:title" content="Motorcycle oil rankings">
+<meta property="og:description" content="Motorcycle engine oils sold in Bangladesh ranked by engine protection, sporty feel and value, from makers' datasheets.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c5 7 9 11.5 9 16.5a9 9 0 0 1-18 0C7 14.5 11 10 16 3z' fill='%232a78d6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-repo="habibium/motorcycle-oil-rankings">
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href="./">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5 7 9 11.5 9 16.5a9 9 0 0 1-18 0C7 14.5 11 10 16 3z" fill="currentColor"/></svg>
+      <span class="brand-text">Motorcycle oil rankings</span>
+    </a>
+    <a class="star" id="star" href="https://github.com/habibium/motorcycle-oil-rankings" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span>Star us on GitHub</span>
+      <span class="star-count" id="star-count" hidden></span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1 id="title">Motorcycle oil rankings</h1>
+    <p class="lede" id="lede">Loading…</p>
+  </section>
+
+  <section class="controls" aria-label="Table options">
+    <div class="control">
+      <span class="control-label" id="grade-label">Grade</span>
+      <div class="seg" id="grade" role="group" aria-labelledby="grade-label"></div>
+    </div>
+    <div class="control">
+      <span class="control-label" id="rank-label">Rank by</span>
+      <div class="seg" id="ranking" role="group" aria-labelledby="rank-label"></div>
+    </div>
+    <div class="control">
+      <span class="control-label" id="type-label">Oil type</span>
+      <div class="seg" id="type" role="group" aria-labelledby="type-label"></div>
+    </div>
+    <div class="control control-search">
+      <label class="control-label" for="search">Find</label>
+      <input id="search" type="search" placeholder="Brand or oil name" autocomplete="off">
+    </div>
+  </section>
+
+  <div class="picks" id="picks"></div>
+
+  <div class="table-meta">
+    <p id="count" class="muted" aria-live="polite"></p>
+    <p class="muted">Click a column heading to sort it; click again to reverse.</p>
+  </div>
+  <div class="table-scroll" tabindex="0" aria-label="Comparison table, scrolls sideways">
+    <table id="table">
+      <caption class="sr-only" id="caption"></caption>
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="legend">
+    <span><span class="sw best">Green</span> best in its column</span>
+    <span><span class="sw worst">Red</span> worst in its column</span>
+    <span>— not published by the maker</span>
+    <span>≥ or &gt; only a minimum is published, so it isn't coloured</span>
+  </div>
+
+  <section class="downloads" id="downloads" aria-label="Downloads"></section>
+
+  <section class="notes">
+    <h2>How to read this</h2>
+    <div class="notes-grid">
+      <p><b>Which interval is yours.</b> City: heavy traffic, ride-hailing work and dusty village roads. Highway: long steady rides and touring. Change at the km shown or every 4 months, whichever comes first, and never past your bike maker's interval.</p>
+      <p><b>How the intervals are set.</b> Semi-synthetic 2,500 km city and 3,500 km highway; synthetic 3,000 and 4,000 km. These are suggestions for Bangladesh's heat. Taka/km is the price of one litre divided by the interval.</p>
+      <p><b>Base oil and additives.</b> Group III is hydrocracked "synthetic technology" oil; Shell's "PurePlus" is a gas-to-liquids (GTL) Group III base. * Group read from the maker's datasheet wording; † read from the maker's safety data sheet. TBN is the acid-neutralising reserve from detergent additives. Sulfated ash is the metal content of detergent and anti-wear additives; JASO MA2 allows up to 1.2%.</p>
+      <p><b>Prices and data.</b> <span id="note-prices"></span></p>
+      <p><b>Not included.</b> <span id="note-excluded"></span></p>
+    </div>
+    <p class="warn">Fake and refilled oil is common in Bangladesh. Buy from the official importer or a trusted shop, and check the seal before paying. Always check your bike's owner's manual for the grade and specification it needs.</p>
+    <p class="muted small" id="sources"></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-row">
+    <span>Code under the MIT licence; data and images under CC BY 4.0. Datasheets belong to their makers.</span>
+    <span><a href="https://github.com/habibium/motorcycle-oil-rankings">Source, data and method on GitHub</a> · <a href="https://github.com/habibium/motorcycle-oil-rankings/issues">Report a wrong price or value</a></span>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
