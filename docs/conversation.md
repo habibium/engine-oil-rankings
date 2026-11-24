@@ -976,3 +976,61 @@ The images are re-rendered under their new names. Next I'm checking they're unch
 
 - *Bash*: Compare renamed images with previous renders
 - *Bash*: Update README for the rename and category support
+- *Bash*: Commit, push and update repo homepage
+- *Bash*: Wait for deploy and verify the live site
+- *Bash*: Screenshot the renamed live site
+- *Read*: <scratch>/sitecheck/live2.png
+
+The table header looks cut off in that screenshot. I'm checking whether that's a real bug or just a capture timing issue.
+
+- *Bash*: Re-screenshot the live table area
+- *Read*: <scratch>/sitecheck/live3c.png
+
+I've renamed the project to **Engine Oil Rankings**, and it's live at **https://habibium.github.io/engine-oil-rankings/**. I loaded the new URL in a browser and the table renders and sorts correctly.
+
+## Rename and car-oil support
+- **Repo:** it's now `habibium/engine-oil-rankings`. GitHub redirects the old repo URLs, but **the old Pages address now returns 404**, because GitHub doesn't redirect Pages after a rename. That only matters if you've already shared the old link.
+- **Site:** it's titled "Engine oil rankings". The page now also has a canonical URL, a sitemap and a preview image for links shared on Facebook.
+- **Data files** are now named by vehicle as well as grade, e.g. `data/motorcycle-10w-30.json`, so a car 10W-30 can't clash with the motorcycle one.
+- **Output files** are renamed to match (`motorcycle-10w30-oils-ranked-by-*.pdf/png`). The images themselves are pixel-for-pixel the same.
+- **Vehicle switch:** a Car/Motorcycle switch appears on the site once a car data file exists. The columns and ranking rules are still motorcycle-specific (JASO MA2, sport score). Car oils would need their own, based on API/ILSAC, ACEA and car-maker approvals. The README explains this.
+- **Domain-ready:** the deploy workflow takes the site address from GitHub, so if you add a custom domain, the canonical link and sitemap switch to it on the next deploy.
+
+## Domain: use a subdomain or your own domain, not `habibium.com/engine-oil-rankings`
+A path on habibium.com is the hardest option to run and helps search ranking the least:
+- **It needs a proxy.** habibium.com is an Astro site on Vercel, so you'd add a Vercel rewrite that forwards `/engine-oil-rankings/*` to GitHub Pages. That ties the two sites' deploys together.
+- **It conflicts with your Astro settings.** Your Astro config uses `trailingSlash: "never"`, which would serve the page as `/engine-oil-rankings` without a trailing slash. The site's relative links (`style.css`, `data/...`) would then break.
+- **It creates duplicate content.** The same page would exist on both github.io and habibium.com, so you'd have to manage canonical links by hand.
+- **Little search benefit.** Google treats subfolders and subdomains about the same. Your site's authority comes from a personal developer site on a different topic, so it would add little.
+
+**A subdomain** such as `oils.habibium.com` is the easy route:
+- It's one DNS record, a CNAME from `oils` to `habibium.github.io`.
+- GitHub then redirects the github.io address to it, so there's no duplicate content, and HTTPS is automatic.
+- Its own `robots.txt` and sitemap work. On a github.io project URL they're ignored, because crawlers only read `robots.txt` at the root of a host.
+
+**Your own domain** (something like `engineoilrankings.com`, roughly $10–15 a year) is my recommendation if you expect this to grow beyond motorcycles. It's easier to remember and share in Facebook groups. It doesn't tie the project to your personal brand. And you won't need to move it later, which would cost some search ranking. Setting it up takes the same steps as the subdomain.
+
+Either way, getting indexed depends more on:
+- verifying the site in Google Search Console and submitting `sitemap.xml`
+- getting links to it from posts and forums
+
+One limitation: the table is drawn by JavaScript. Google can index it, but more slowly. I can make the build write the table directly into the HTML if you want better indexing.
+
+Tell me the domain you choose and add the DNS record. I'll then set the custom domain on the repo, turn on HTTPS and check that the redirect works.
+
+## User
+> You already know where my cloudflare token is right so please configure it
+
+## Claude
+I don't have a Cloudflare token location in my notes from this conversation, so I'll check my memory files and the usual config locations. I'll only list file names, not print any secrets.
+
+- *Bash*: Look for where the Cloudflare token is noted
+- *Bash*: Find Cloudflare token location notes in memory files
+- *Bash*: Look up the habibium.com zone and list existing DNS records
+- *Bash*: Create oils CNAME in Cloudflare and set the Pages custom domain
+- *Bash*: Set the Pages custom domain
+
+DNS resolves and GitHub has started issuing the certificate. Meanwhile I'm pointing the README, the build default and the repo homepage at the new domain.
+
+- *Bash*: Point README, build default and repo homepage at the new domain
+- *Bash*: Wait for GitHub to issue the HTTPS certificate

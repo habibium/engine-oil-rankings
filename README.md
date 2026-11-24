@@ -2,7 +2,7 @@
 
 This project compares engine oils sold in Bangladesh, using the makers' datasheets and JASO's filed-oil list. Each grade is ranked three ways: engine protection, performance and sporty feel, and value for money.
 
-**Website: https://habibium.github.io/engine-oil-rankings/** On the site you can switch vehicle, grade and ranking, filter by oil type, search, and sort any column in ascending or descending order.
+**Website: https://oils.habibium.com/** On the site you can switch vehicle, grade and ranking, filter by oil type, search, and sort any column in ascending or descending order.
 
 So far it covers **10W-30 motorcycle oils**: fourteen semi-synthetic and synthetic oils rated JASO MA or MA2, with prices from November 2026. Other motorcycle grades, such as 10W-40 and 5W-30, can be added as more data files without changing any code (see [Adding a grade](#adding-a-grade)). Car oils fit the same structure but need their own columns and ranking rules (see [Car oils](#car-oils)).
 

@@ -10,7 +10,7 @@ import rankings as R
 
 out = Path(sys.argv[1])
 # Absolute URL for canonical links and the sitemap; CI passes the Pages URL, which follows a custom domain.
-site_url = os.environ.get("SITE_URL", "https://habibium.github.io/engine-oil-rankings").rstrip("/") + "/"
+site_url = os.environ.get("SITE_URL", "https://oils.habibium.com").rstrip("/") + "/"
 shutil.rmtree(out, ignore_errors=True)
 shutil.copytree(R.ROOT / "site", out)
 page = out / "index.html"
